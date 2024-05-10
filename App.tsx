@@ -18,6 +18,8 @@ import mySaga from './src/sagas';
 
 import BooksListScreen from './src/BooksListScreen.tsx';
 import BookDetailsScreen from './src/BookDetailsScreen.tsx';
+import HamburgerButton from './src/components/HamburgerButton.tsx';
+import SearchInput from './src/components/SearchInput.tsx';
 
 // Create the saga middleware
 const sagaMiddleware = createSagaMiddleware();
@@ -26,7 +28,10 @@ const middleware = [sagaMiddleware];
 // Mount it on the Store
 const store = configureStore({
   reducer,
-  preloadedState: {},
+  preloadedState: {
+    isLoading: true,
+    books: [],
+  },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(middleware),
 });
 
@@ -40,7 +45,20 @@ function App(): React.JSX.Element {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Home" component={BooksListScreen} />
+          <Stack.Screen
+            name="Library"
+            component={BooksListScreen}
+            options={() => ({
+              headerLeft: () => (
+                <HamburgerButton
+                  onPress={() => {
+                    return;
+                  }}
+                />
+              ), // required to prevent FOUC
+              headerRight: () => <SearchInput />,
+            })}
+          />
           <Stack.Screen name="Book" component={BookDetailsScreen} />
         </Stack.Navigator>
       </NavigationContainer>

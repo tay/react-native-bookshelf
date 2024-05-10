@@ -1,18 +1,17 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
-  Image,
   SafeAreaView,
   StatusBar,
   StyleSheet,
   Text,
-  TextInput,
   TouchableHighlight,
   View,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import './hamburger.svg';
-import BooksList from './BooksList';
-import {selectActiveBooks, selectIsLoading} from './slices.ts';
+import {selectActiveBooks, selectFormats, selectIsLoading} from './slices.ts';
+
+import BooksList from './components/BooksList.tsx';
+import HamburgerButton from './components/HamburgerButton.tsx';
 
 const Loading = () => {
   return <Text>Loading</Text>;
@@ -52,38 +51,57 @@ const styles = StyleSheet.create({
   },
 });
 
-const BooksListScreenNavbar = () => {
+type SidebarProps = {
+  formats: Array<string>;
+  selectFilter: (filter: string) => void;
+};
+const Sidebar = ({formats, selectFilter}: SidebarProps) => {
   return (
-    <View style={styles.navbar}>
-      <TouchableHighlight>
-        <Image
-          style={{width: 30, height: 30}}
-          source={require('./hamburger.svg.png')}
-        />
-      </TouchableHighlight>
-      <Text style={styles.header}>Library</Text>
-      <TextInput placeholder="search" style={styles.search} />
+    <View>
+      <Text>Genres</Text>
+      {formats.map(format => (
+        <TouchableHighlight key={format} onPress={() => selectFilter(format)}>
+          <Text>{format}</Text>
+        </TouchableHighlight>
+      ))}
     </View>
   );
 };
 
 const BooksListScreen = ({navigation}: {navigation: Navigation}) => {
   const dispatch = useDispatch();
+  const isLoading = useSelector(selectIsLoading);
+  const [showSidebar, setShowSidebar] = useState(false);
+  const books = useSelector(selectActiveBooks);
+  const formats = useSelector(selectFormats);
+
   useEffect(() => {
     dispatch({type: 'BOOKS_FETCH_REQUESTED'});
   }, [dispatch]);
 
-  const isLoading = useSelector(selectIsLoading);
-  const books = useSelector(selectActiveBooks);
+  useEffect(() => {
+    // Use `setOptions` to update the button that we previously specified
+    // Now the button includes an `onPress` handler to update the count
+    navigation.setOptions({
+      headerLeft: () => (
+        <HamburgerButton onPress={() => setShowSidebar(true)} />
+      ),
+    });
+  }, [navigation]);
 
   const navigateToBook = (bookId: number) => {
     navigation.navigate('Book', {id: bookId});
   };
 
+  const selectFilter = (filter: string) => {
+    dispatch({type: 'BOOKS_FILTER_CHANGED', filter});
+    setShowSidebar(false);
+  };
+
   return (
     <SafeAreaView style={styles.page}>
       <StatusBar />
-      <BooksListScreenNavbar />
+      {showSidebar && <Sidebar formats={formats} selectFilter={selectFilter} />}
       <View style={styles.content}>
         {isLoading ? (
           <Loading />

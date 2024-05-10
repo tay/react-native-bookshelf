@@ -1,42 +1,25 @@
 import React from 'react';
-import {SafeAreaView, Text, View} from 'react-native';
+import {Text} from 'react-native';
 import {useSelector} from 'react-redux';
 import {selectBookById} from './slices';
-
-const BookDetailsScreenMenubar = ({book}: {book: Book}) => {
-  return <Text>{book.title}</Text>;
-};
+import BookDetailCard from './components/BookDetailCard.tsx';
 
 const BookDetailsScreen = ({
-  route,
   navigation,
+  route,
 }: {
-  route: RouteType;
-  navigation: any;
+  navigation: Navigation;
+  route: Route;
 }) => {
-  // @ts-ignore
-  const id: number = route.params.id;
-  const book = useSelector(state => selectBookById(state, id));
+  const id = route.params.id;
+  const book = useSelector(state => id && selectBookById(state, id));
+
   if (!book) {
-    return (
-      <View>
-        <Text>Book not found: {id}</Text>
-      </View>
-    );
+    return <Text>Book not found: {id}</Text>;
   }
   navigation.setOptions({title: book.title});
 
-  return (
-    <SafeAreaView>
-      <View>
-        <Text>Book: {book.title}</Text>
-        <Text>Author: {book.creators.items.map(c => c.name).join(', ')}</Text>
-        <Text>No. Pages: {book.pageCount}</Text>
-        <Text>ISBN: {book.isbn}</Text>
-        <Text>Synopsis: Blah de blah</Text>
-      </View>
-    </SafeAreaView>
-  );
+  return <BookDetailCard book={book} />;
 };
 
 export default BookDetailsScreen;

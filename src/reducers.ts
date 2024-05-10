@@ -1,4 +1,4 @@
-function reducer(state, action) {
+function reducer(state: State, action: Action) {
   console.log(`REDUCING ${action.type}`);
 
   switch (action.type) {

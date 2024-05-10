@@ -8,11 +8,12 @@ const BOOKS_FETCH_FAILED = 'BOOKS_FETCH_FAILED';
 const WHITELISTED_FIELDS = [
   'id',
   'title',
-  'thumbnail',
+  'format',
   'isbn',
-  'dates',
   'pageCount',
+  'thumbnail',
   'creators',
+  'dates',
 ];
 
 // worker Saga: will be fired on BOOKS_FETCH_REQUESTED actions

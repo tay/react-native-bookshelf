@@ -1,8 +1,9 @@
 type Book = {
   id: number;
-  dates: Array<any>;
-  isbn: string;
   title: string;
+  format: string;
+  isbn: string;
+  pageCount: number;
   thumbnail: {
     path: string;
     extension: string;
@@ -10,16 +11,26 @@ type Book = {
   creators: {
     items: Array<any>;
   };
-  pageCount: number;
+  dates: Array<any>;
 };
 
 type State = {
   books: Array<Book>;
   isLoading: boolean;
   filter: string;
-  filteredBooksIds: Array<number>;
 };
 
+type Action = {
+  type: string;
+  books?: Array<Book>;
+  filter?: string;
+};
+
+// TODO: Use React Type Interfaces
 type Navigation = any;
 
-type RouteType = {params: Object};
+type Route = {
+  params: {
+    id?: number;
+  };
+};
