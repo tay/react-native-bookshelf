@@ -17,15 +17,15 @@ const WHITELISTED_FIELDS = [
 ];
 
 // worker Saga: will be fired on BOOKS_FETCH_REQUESTED actions
-function* fetchBooks(_action) {
+function* fetchBooks(_action: Action) {
   try {
     const results = booksJson.data.results;
     const books = results.map(book => {
-      const result = {};
-      WHITELISTED_FIELDS.forEach(field => {
-        result[field] = book[field];
-      });
-      return result;
+      return WHITELISTED_FIELDS.reduce((acc, field) => {
+        // @ts-ignore
+        acc[field] = book[field];
+        return acc;
+      }, {});
     });
     yield put({type: BOOKS_FETCH_SUCCEEDED, books: books});
   } catch (e) {

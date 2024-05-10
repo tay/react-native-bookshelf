@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {selectActiveBooks, selectFormats, selectIsLoading} from './slices.ts';
+import {selectActiveBooks, selectFormats, selectIsLoading} from './slices';
 
 import BooksList from './components/BooksList.tsx';
 import HamburgerButton from './components/HamburgerButton.tsx';

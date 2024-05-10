@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import {getThumbnailUri, THUMBNAIL_ASPECT_RATIO} from './utils.ts';
+import {getThumbnailUri, THUMBNAIL_ASPECT_RATIO} from './utils';
 
 const CONTAINER_PADDING = 20;
 const imageWidth = Dimensions.get('window').width - CONTAINER_PADDING * 2;
