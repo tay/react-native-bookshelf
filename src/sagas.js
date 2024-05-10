@@ -18,7 +18,6 @@ function* fetchBooks(action) {
     });
     yield put({type: BOOKS_FETCH_SUCCEEDED, books: books});
   } catch (e) {
-    console.log('BOOKS_FETCH_FAILED', e);
     yield put({type: BOOKS_FETCH_FAILED, message: e.message});
   }
 }

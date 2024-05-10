@@ -1,31 +1,26 @@
 import React from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import {FlatList, Image, StyleSheet, View} from 'react-native';
 
-type BookCardProps = {
-  book: {
-    id: number;
-    title: string;
-    thumbnail: {
-      path: string;
-      extension: string;
-    };
+type BookProps = {
+  id: number;
+  title: string;
+  thumbnail: {
+    path: string;
+    extension: string;
   };
 };
 
 const styles = StyleSheet.create({
   list: {
-    flex: 1,
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    padding: 20,
+    paddingBottom: 0,
   },
   card: {
-    flexBasis: '33.3%',
     borderStyle: 'solid',
     borderColor: '#808080',
     borderWidth: 1,
     borderRadius: 8,
+    marginBottom: 20,
   },
   image: {
     width: 100,
@@ -34,7 +29,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const BookCard = ({book}: BookCardProps) => {
+const BookCard = ({book}: {book: BookProps}) => {
   // Force thumbnails to load over HTTPS as required by Apple
   const uri = [
     book.thumbnail.path.replace('http', 'https'),
@@ -43,22 +38,20 @@ const BookCard = ({book}: BookCardProps) => {
 
   return (
     <View style={styles.card}>
-      <Image
-        style={styles.image}
-        source={{
-          uri: uri,
-        }}
-      />
+      <Image style={styles.image} source={{uri}} />
     </View>
   );
 };
 
-const BooksList = (props: {books: Array<any>}) => {
+const BooksList = (props: {books: Array<BookProps>}) => {
   return (
     <View style={styles.list}>
-      {props.books.map((book, _i) => (
-        <BookCard key={book.id} book={book} />
-      ))}
+      <FlatList
+        numColumns={3}
+        columnWrapperStyle={{justifyContent: 'space-between'}}
+        data={props.books}
+        renderItem={({item}) => <BookCard key={item.id} book={item} />}
+      />
     </View>
   );
 };

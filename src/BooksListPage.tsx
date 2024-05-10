@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import {
   Image,
   SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -18,6 +17,11 @@ const Loading = () => {
 };
 
 const styles = StyleSheet.create({
+  page: {
+    display: 'flex',
+    height: '100%',
+    flexDirection: 'column',
+  },
   menubar: {
     paddingHorizontal: 20,
     paddingVertical: 16,
@@ -27,8 +31,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  hamburger: {
-  },
+  hamburger: {},
   header: {
     fontSize: 18,
     fontWeight: 'bold',
@@ -40,6 +43,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 10,
     width: 100,
+  },
+  content: {
+    flex: 1,
+    backgroundColor: '#ffc', // DEBUG
   },
 });
 
@@ -65,12 +72,12 @@ const BooksListPage = () => {
   const books = useSelector(state => state.books);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.page}>
       <StatusBar />
       <Menubar />
-      <ScrollView contentInsetAdjustmentBehavior="automatic">
+      <View style={styles.content}>
         {books ? <BooksList books={books} /> : <Loading />}
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
