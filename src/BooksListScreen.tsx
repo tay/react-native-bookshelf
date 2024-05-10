@@ -29,6 +29,7 @@ const BooksListScreen = ({navigation}: ScreenProps) => {
   const [showSidebar, setShowSidebar] = useState(false);
   const books = useSelector(selectActiveBooks);
   const formats = useSelector(selectFormats);
+  const toggleSidebar = () => setShowSidebar((showSidebar) => !showSidebar)
 
   useEffect(() => {
     dispatch({type: 'BOOKS_FETCH_REQUESTED'});
@@ -39,7 +40,7 @@ const BooksListScreen = ({navigation}: ScreenProps) => {
     // Now the button includes an `onPress` handler to update the count
     navigation.setOptions({
       headerLeft: () => (
-        <HamburgerButton onPress={() => setShowSidebar(true)} />
+        <HamburgerButton onPress={toggleSidebar} />
       ),
     });
   }, [navigation]);
