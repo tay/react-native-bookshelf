@@ -16,10 +16,10 @@ import createSagaMiddleware from 'redux-saga';
 import reducer from './src/reducers';
 import mySaga from './src/sagas';
 
-import BooksListScreen from './src/BooksListScreen.tsx';
-import BookDetailsScreen from './src/BookDetailsScreen.tsx';
-import HamburgerButton from './src/components/HamburgerButton.tsx';
-import SearchInput from './src/components/SearchInput.tsx';
+import BooksListScreen from './src/BooksListScreen';
+import BookDetailsScreen from './src/BookDetailsScreen';
+import HamburgerButton from './src/components/HamburgerButton';
+import SearchInput from './src/components/SearchInput';
 
 // Create the saga middleware
 const sagaMiddleware = createSagaMiddleware();

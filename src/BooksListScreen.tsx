@@ -1,17 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View,
-} from 'react-native';
+import {SafeAreaView, StatusBar, StyleSheet, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectActiveBooks, selectFormats, selectIsLoading} from './slices';
 
-import BooksList from './components/BooksList.tsx';
-import HamburgerButton from './components/HamburgerButton.tsx';
+import BooksList from './components/BooksList';
+import HamburgerButton from './components/HamburgerButton';
+import {Sidebar} from './components/Sidebar';
 
 const Loading = () => {
   return <Text>Loading</Text>;
@@ -23,50 +17,11 @@ const styles = StyleSheet.create({
     height: '100%',
     flexDirection: 'column',
   },
-  navbar: {
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    display: 'flex',
-    flexDirection: 'row',
-    backgroundColor: '#ccc',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  hamburger: {},
-  header: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  search: {
-    alignSelf: 'flex-end',
-    height: 24,
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 10,
-    width: 100,
-  },
   content: {
     flex: 1,
     backgroundColor: '#ffc', // DEBUG
   },
 });
-
-type SidebarProps = {
-  formats: Array<string>;
-  selectFilter: (filter: string) => void;
-};
-const Sidebar = ({formats, selectFilter}: SidebarProps) => {
-  return (
-    <View>
-      <Text>Genres</Text>
-      {formats.map(format => (
-        <TouchableHighlight key={format} onPress={() => selectFilter(format)}>
-          <Text>{format}</Text>
-        </TouchableHighlight>
-      ))}
-    </View>
-  );
-};
 
 const BooksListScreen = ({navigation}: ScreenProps) => {
   const dispatch = useDispatch();

@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const BookDetailCard = ({book}: {book: Book}) => {
+const BookDetailsCard = ({book}: {book: Book}) => {
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -38,4 +38,4 @@ const BookDetailCard = ({book}: {book: Book}) => {
   );
 };
 
-export default BookDetailCard;
+export default BookDetailsCard;

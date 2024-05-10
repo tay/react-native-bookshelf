@@ -19,7 +19,8 @@ const cardHeight = cardWidth * THUMBNAIL_ASPECT_RATIO;
 
 const styles = StyleSheet.create({
   flatList: {
-    marginHorizontal: CONTAINER_PADDING - CARD_MARGIN / 2,
+    paddingHorizontal: CONTAINER_PADDING - CARD_MARGIN / 2,
+    paddingVertical: CONTAINER_PADDING,
   },
   card: {
     borderStyle: 'solid',
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     marginHorizontal: CARD_MARGIN / 2,
-    marginVertical: CARD_MARGIN,
+    marginBottom: CARD_MARGIN,
     width: cardWidth,
     height: cardHeight,
     overflow: 'hidden',
@@ -62,8 +63,8 @@ const BooksList = (props: {
   return (
     <FlatList
       numColumns={3}
-      columnWrapperStyle={styles.flatList}
       data={props.books}
+      style={styles.flatList}
       renderItem={({item}) => (
         <BookCard
           key={item.id}

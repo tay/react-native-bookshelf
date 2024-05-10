@@ -2,7 +2,7 @@ import React from 'react';
 import {Text} from 'react-native';
 import {useSelector} from 'react-redux';
 import {selectBookById} from './slices';
-import BookDetailCard from './components/BookDetailCard.tsx';
+import BookDetailsCard from './components/BookDetailsCard';
 
 const BookDetailsScreen = ({navigation, route}: ScreenProps) => {
   const id = route.params.id;
@@ -13,7 +13,7 @@ const BookDetailsScreen = ({navigation, route}: ScreenProps) => {
   }
   navigation.setOptions({title: book.title});
 
-  return <BookDetailCard book={book} />;
+  return <BookDetailsCard book={book} />;
 };
 
 export default BookDetailsScreen;
