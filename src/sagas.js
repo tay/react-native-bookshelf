@@ -14,8 +14,9 @@ const WHITELISTED_FIELDS = [
   'pageCount',
   'creators',
 ];
+
 // worker Saga: will be fired on BOOKS_FETCH_REQUESTED actions
-function* fetchBooks(action) {
+function* fetchBooks(_action) {
   try {
     const results = booksJson.data.results;
     const books = results.map(book => {

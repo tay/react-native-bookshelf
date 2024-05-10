@@ -13,7 +13,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {configureStore} from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 
-import reducer from './src/reducers';
+import reducer from './src/reducers.ts';
 import mySaga from './src/sagas';
 
 import BooksListScreen from './src/BooksListScreen.tsx';

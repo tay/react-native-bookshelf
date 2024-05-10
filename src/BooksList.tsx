@@ -7,19 +7,13 @@ import {
   View,
 } from 'react-native';
 
-type BookProps = {
-  id: number;
-  title: string;
-  thumbnail: {
-    path: string;
-    extension: string;
-  };
-};
-
 const styles = StyleSheet.create({
   list: {
     padding: 20,
     paddingBottom: 0,
+  },
+  flatList: {
+    justifyContent: 'space-between',
   },
   card: {
     borderStyle: 'solid',
@@ -37,10 +31,10 @@ const styles = StyleSheet.create({
 
 const BookCard = ({
   book,
-  onPress,
+  navigateToBook,
 }: {
-  book: BookProps;
-  onPress: (id: number) => void;
+  book: Book;
+  navigateToBook: (id: number) => void;
 }) => {
   // Force thumbnails to load over HTTPS as required by Apple
   const uri = [
@@ -49,24 +43,30 @@ const BookCard = ({
   ].join('.');
 
   return (
-    <TouchableHighlight style={styles.card} onPress={() => onPress(book.id)}>
+    <TouchableHighlight
+      style={styles.card}
+      onPress={() => navigateToBook(book.id)}>
       <Image style={styles.image} source={{uri}} />
     </TouchableHighlight>
   );
 };
 
-const BooksList = (props: {navigation: any; books: Array<BookProps>}) => {
-  const onPress = (bookId: number) => {
-    props.navigation.navigate('Book', {id: bookId});
-  };
+const BooksList = (props: {
+  navigateToBook: (bookId: number) => void;
+  books: Array<Book>;
+}) => {
   return (
     <View style={styles.list}>
       <FlatList
         numColumns={3}
-        columnWrapperStyle={{justifyContent: 'space-between'}}
+        columnWrapperStyle={styles.flatList}
         data={props.books}
         renderItem={({item}) => (
-          <BookCard key={item.id} book={item} onPress={onPress} />
+          <BookCard
+            key={item.id}
+            book={item}
+            navigateToBook={props.navigateToBook}
+          />
         )}
       />
     </View>

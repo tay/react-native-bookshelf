@@ -12,6 +12,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import './hamburger.svg';
 import BooksList from './BooksList';
+import {selectActiveBooks, selectIsLoading} from './slices.ts';
 
 const Loading = () => {
   return <Text>Loading</Text>;
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
     height: '100%',
     flexDirection: 'column',
   },
-  menubar: {
+  navbar: {
     paddingHorizontal: 20,
     paddingVertical: 16,
     display: 'flex',
@@ -51,9 +52,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const Menubar = () => {
+const BooksListScreenNavbar = () => {
   return (
-    <View style={styles.menubar}>
+    <View style={styles.navbar}>
       <TouchableHighlight>
         <Image
           style={{width: 30, height: 30}}
@@ -66,23 +67,28 @@ const Menubar = () => {
   );
 };
 
-const BooksListScreen = ({navigation}) => {
+const BooksListScreen = ({navigation}: {navigation: Navigation}) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({type: 'BOOKS_FETCH_REQUESTED'});
   }, [dispatch]);
 
-  const books = useSelector(state => state.books);
+  const isLoading = useSelector(selectIsLoading);
+  const books = useSelector(selectActiveBooks);
+
+  const navigateToBook = (bookId: number) => {
+    navigation.navigate('Book', {id: bookId});
+  };
 
   return (
     <SafeAreaView style={styles.page}>
       <StatusBar />
-      <Menubar />
+      <BooksListScreenNavbar />
       <View style={styles.content}>
-        {books ? (
-          <BooksList books={books} navigation={navigation} />
-        ) : (
+        {isLoading ? (
           <Loading />
+        ) : (
+          <BooksList books={books} navigateToBook={navigateToBook} />
         )}
       </View>
     </SafeAreaView>
