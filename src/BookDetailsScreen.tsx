@@ -4,15 +4,9 @@ import {useSelector} from 'react-redux';
 import {selectBookById} from './slices';
 import BookDetailCard from './components/BookDetailCard.tsx';
 
-const BookDetailsScreen = ({
-  navigation,
-  route,
-}: {
-  navigation: Navigation;
-  route: Route;
-}) => {
+const BookDetailsScreen = ({navigation, route}: ScreenProps) => {
   const id = route.params.id;
-  const book = useSelector(state => id && selectBookById(state, id));
+  const book = useSelector((state: State) => id && selectBookById(state, id));
 
   if (!book) {
     return <Text>Book not found: {id}</Text>;

@@ -68,7 +68,7 @@ const Sidebar = ({formats, selectFilter}: SidebarProps) => {
   );
 };
 
-const BooksListScreen = ({navigation}: {navigation: Navigation}) => {
+const BooksListScreen = ({navigation}: ScreenProps) => {
   const dispatch = useDispatch();
   const isLoading = useSelector(selectIsLoading);
   const [showSidebar, setShowSidebar] = useState(false);

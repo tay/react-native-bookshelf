@@ -34,3 +34,8 @@ type Route = {
     id?: number;
   };
 };
+
+type ScreenProps = {
+  navigation: Navigation;
+  route: Route;
+};
