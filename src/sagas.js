@@ -5,16 +5,25 @@ const BOOKS_FETCH_REQUESTED = 'BOOKS_FETCH_REQUESTED';
 const BOOKS_FETCH_SUCCEEDED = 'BOOKS_FETCH_SUCCEEDED';
 const BOOKS_FETCH_FAILED = 'BOOKS_FETCH_FAILED';
 
+const WHITELISTED_FIELDS = [
+  'id',
+  'title',
+  'thumbnail',
+  'isbn',
+  'dates',
+  'pageCount',
+  'creators',
+];
 // worker Saga: will be fired on BOOKS_FETCH_REQUESTED actions
 function* fetchBooks(action) {
   try {
     const results = booksJson.data.results;
     const books = results.map(book => {
-      return {
-        id: book.id,
-        title: book.title,
-        thumbnail: book.thumbnail,
-      };
+      const result = {};
+      WHITELISTED_FIELDS.forEach(field => {
+        result[field] = book[field];
+      });
+      return result;
     });
     yield put({type: BOOKS_FETCH_SUCCEEDED, books: books});
   } catch (e) {

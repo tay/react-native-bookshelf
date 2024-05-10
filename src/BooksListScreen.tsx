@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableHighlight,
   View,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -53,17 +54,19 @@ const styles = StyleSheet.create({
 const Menubar = () => {
   return (
     <View style={styles.menubar}>
-      <Image
-        style={{width: 30, height: 30}}
-        source={require('./hamburger.svg.png')}
-      />
+      <TouchableHighlight>
+        <Image
+          style={{width: 30, height: 30}}
+          source={require('./hamburger.svg.png')}
+        />
+      </TouchableHighlight>
       <Text style={styles.header}>Library</Text>
       <TextInput placeholder="search" style={styles.search} />
     </View>
   );
 };
 
-const BooksListPage = () => {
+const BooksListScreen = ({navigation}) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({type: 'BOOKS_FETCH_REQUESTED'});
@@ -76,10 +79,14 @@ const BooksListPage = () => {
       <StatusBar />
       <Menubar />
       <View style={styles.content}>
-        {books ? <BooksList books={books} /> : <Loading />}
+        {books ? (
+          <BooksList books={books} navigation={navigation} />
+        ) : (
+          <Loading />
+        )}
       </View>
     </SafeAreaView>
   );
 };
 
-export default BooksListPage;
+export default BooksListScreen;

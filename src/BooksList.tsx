@@ -1,5 +1,11 @@
 import React from 'react';
-import {FlatList, Image, StyleSheet, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  TouchableHighlight,
+  View,
+} from 'react-native';
 
 type BookProps = {
   id: number;
@@ -29,7 +35,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const BookCard = ({book}: {book: BookProps}) => {
+const BookCard = ({
+  book,
+  onPress,
+}: {
+  book: BookProps;
+  onPress: (id: number) => void;
+}) => {
   // Force thumbnails to load over HTTPS as required by Apple
   const uri = [
     book.thumbnail.path.replace('http', 'https'),
@@ -37,20 +49,25 @@ const BookCard = ({book}: {book: BookProps}) => {
   ].join('.');
 
   return (
-    <View style={styles.card}>
+    <TouchableHighlight style={styles.card} onPress={() => onPress(book.id)}>
       <Image style={styles.image} source={{uri}} />
-    </View>
+    </TouchableHighlight>
   );
 };
 
-const BooksList = (props: {books: Array<BookProps>}) => {
+const BooksList = (props: {navigation: any; books: Array<BookProps>}) => {
+  const onPress = (bookId: number) => {
+    props.navigation.navigate('Book', {id: bookId});
+  };
   return (
     <View style={styles.list}>
       <FlatList
         numColumns={3}
         columnWrapperStyle={{justifyContent: 'space-between'}}
         data={props.books}
-        renderItem={({item}) => <BookCard key={item.id} book={item} />}
+        renderItem={({item}) => (
+          <BookCard key={item.id} book={item} onPress={onPress} />
+        )}
       />
     </View>
   );
