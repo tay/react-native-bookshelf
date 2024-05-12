@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text} from 'react-native';
 import {useSelector} from 'react-redux';
+
 import {selectBookById} from './slices';
 import BookDetailsCard from './components/BookDetailsCard';
 
@@ -11,8 +12,8 @@ const BookDetailsScreen = ({navigation, route}: ScreenProps) => {
   if (!book) {
     return <Text>Book not found: {id}</Text>;
   }
-  navigation.setOptions({title: book.title});
 
+  navigation.setOptions({title: book.title});
   return <BookDetailsCard book={book} />;
 };
 

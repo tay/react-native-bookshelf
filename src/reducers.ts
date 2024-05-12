@@ -12,12 +12,6 @@ function reducer(state: State, action: Action) {
         isLoading: false,
         books: books,
       };
-    case 'BOOKS_FILTER_CHANGED':
-      const filter = action.filter;
-      return {
-        ...state,
-        filter,
-      };
     default:
       return state;
   }

@@ -1,11 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {SafeAreaView, StatusBar, StyleSheet, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {selectActiveBooks, selectFormats, selectIsLoading} from './slices';
+import {Drawer} from 'react-native-drawer-layout';
 
+import {
+  selectBooks,
+  selectBooksByFormat,
+  selectIsLoading,
+  selectFormats,
+} from './slices';
 import BooksList from './components/BooksList';
 import HamburgerButton from './components/HamburgerButton';
-import {Sidebar} from './components/Sidebar';
+import FilterDrawerContent from './components/FilterDrawerContent.tsx';
 
 const Loading = () => {
   return <Text>Loading</Text>;
@@ -25,11 +31,15 @@ const styles = StyleSheet.create({
 
 const BooksListScreen = ({navigation}: ScreenProps) => {
   const dispatch = useDispatch();
+  const [open, setOpen] = React.useState(false);
+  const [filter, setFilter] = React.useState<string | null>(null);
+
   const isLoading = useSelector(selectIsLoading);
-  const [showSidebar, setShowSidebar] = useState(false);
-  const books = useSelector(selectActiveBooks);
+  const books = useSelector((state: State) => {
+    return filter ? selectBooksByFormat(state, filter) : selectBooks(state);
+  });
+
   const formats = useSelector(selectFormats);
-  const toggleSidebar = () => setShowSidebar((showSidebar) => !showSidebar)
 
   useEffect(() => {
     dispatch({type: 'BOOKS_FETCH_REQUESTED'});
@@ -40,7 +50,7 @@ const BooksListScreen = ({navigation}: ScreenProps) => {
     // Now the button includes an `onPress` handler to update the count
     navigation.setOptions({
       headerLeft: () => (
-        <HamburgerButton onPress={toggleSidebar} />
+        <HamburgerButton onPress={() => setOpen(prevOpen => !prevOpen)} />
       ),
     });
   }, [navigation]);
@@ -49,22 +59,33 @@ const BooksListScreen = ({navigation}: ScreenProps) => {
     navigation.navigate('Book', {id: bookId});
   };
 
-  const selectFilter = (filter: string) => {
-    dispatch({type: 'BOOKS_FILTER_CHANGED', filter});
-    setShowSidebar(false);
+  const selectFilter = (format: string) => {
+    setFilter(format);
+    setOpen(false);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <SafeAreaView style={styles.page}>
       <StatusBar />
-      {showSidebar && <Sidebar formats={formats} selectFilter={selectFilter} />}
-      <View style={styles.content}>
-        {isLoading ? (
-          <Loading />
-        ) : (
+      <Drawer
+        open={open}
+        onOpen={() => {
+          setOpen(true);
+        }}
+        onClose={() => {
+          setOpen(false);
+        }}
+        renderDrawerContent={() => (
+          <FilterDrawerContent formats={formats} selectFilter={selectFilter} />
+        )}>
+        <View style={styles.content}>
           <BooksList books={books} navigateToBook={navigateToBook} />
-        )}
-      </View>
+        </View>
+      </Drawer>
     </SafeAreaView>
   );
 };

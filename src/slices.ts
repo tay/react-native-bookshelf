@@ -6,8 +6,12 @@ const selectBookById = (state: State, id: number) => {
   return state.books.find(book => book.id === id);
 };
 
-const selectBooksByType = (state: State, filter: string) => {
-  return state.books.filter(book => book.format === filter);
+const selectBooks = (state: State) => {
+  return state.books;
+};
+
+const selectBooksByFormat = (state: State, format: string) => {
+  return selectBooks(state).filter(book => book.format === format);
 };
 
 const selectFormats = (state: State) => {
@@ -20,13 +24,10 @@ const selectFormats = (state: State) => {
   }, []);
 };
 
-const selectActiveBooks = (state: State) => {
-  const filter = state.filter;
-  if (filter) {
-    return selectBooksByType(state, state.filter);
-  } else {
-    return state.books;
-  }
+export {
+  selectBooks,
+  selectBookById,
+  selectBooksByFormat,
+  selectFormats,
+  selectIsLoading,
 };
-
-export {selectIsLoading, selectBookById, selectActiveBooks, selectFormats};
