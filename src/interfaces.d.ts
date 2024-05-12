@@ -32,6 +32,7 @@ type Navigation = any;
 type Route = {
   params: {
     id?: number;
+    format?: string;
   };
 };
 

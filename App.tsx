@@ -17,10 +17,8 @@ import createSagaMiddleware from 'redux-saga';
 import reducer from './src/reducers';
 import mySaga from './src/sagas';
 
-import BooksListScreen from './src/BooksListScreen';
-import BookDetailsScreen from './src/BookDetailsScreen';
-import HamburgerButton from './src/components/HamburgerButton';
-import SearchInput from './src/components/SearchInput';
+import BookDetailsScreen from './src/BookDetailsScreen.tsx';
+import BooksListScreen from './src/BooksListScreen.tsx';
 
 // Create the saga middleware
 const sagaMiddleware = createSagaMiddleware();
@@ -50,16 +48,7 @@ function App(): React.JSX.Element {
           <Stack.Screen
             name="Library"
             component={BooksListScreen}
-            options={() => ({
-              headerLeft: () => (
-                <HamburgerButton
-                  onPress={() => {
-                    return;
-                  }}
-                />
-              ), // required to prevent FOUC
-              headerRight: () => <SearchInput />,
-            })}
+            options={{headerShown: false}}
           />
           <Stack.Screen name="Book" component={BookDetailsScreen} />
         </Stack.Navigator>

@@ -3,6 +3,8 @@ import {
   Dimensions,
   FlatList,
   Image,
+  SafeAreaView,
+  StatusBar,
   StyleSheet,
   TouchableHighlight,
 } from 'react-native';
@@ -18,6 +20,10 @@ const cardWidth =
 const cardHeight = cardWidth * THUMBNAIL_ASPECT_RATIO;
 
 const styles = StyleSheet.create({
+  page: {
+    flex: 1,
+    backgroundColor: '#ffc', // DEBUG
+  },
   flatList: {
     paddingHorizontal: CONTAINER_PADDING - CARD_MARGIN / 2,
     paddingVertical: CONTAINER_PADDING,
@@ -56,24 +62,27 @@ const BookCard = ({
   );
 };
 
-const BooksList = (props: {
+const BooksListView = (props: {
   navigateToBook: (bookId: number) => void;
   books: Array<Book>;
 }) => {
   return (
-    <FlatList
-      numColumns={3}
-      data={props.books}
-      style={styles.flatList}
-      renderItem={({item}) => (
-        <BookCard
-          key={item.id}
-          book={item}
-          navigateToBook={props.navigateToBook}
-        />
-      )}
-    />
+    <SafeAreaView style={styles.page}>
+      <StatusBar />
+      <FlatList
+        numColumns={3}
+        data={props.books}
+        style={styles.flatList}
+        renderItem={({item}) => (
+          <BookCard
+            key={item.id}
+            book={item}
+            navigateToBook={props.navigateToBook}
+          />
+        )}
+      />
+    </SafeAreaView>
   );
 };
 
-export default BooksList;
+export default BooksListView;
