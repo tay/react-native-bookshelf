@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffc', // DEBUG
   },
-  flatList: {
+  container: {
     paddingHorizontal: CONTAINER_PADDING - CARD_MARGIN / 2,
     paddingVertical: CONTAINER_PADDING,
   },
@@ -53,8 +53,13 @@ const BookCard = ({
   book: Book;
   navigateToBook: (id: number) => void;
 }) => {
+  const accessibilityLabel = `Go to Book Details for ${book.title}`;
+
   return (
     <TouchableHighlight
+      accessible={true}
+      accessibilityLabel={accessibilityLabel}
+      accessibilityRole="imagebutton"
       style={styles.card}
       onPress={() => navigateToBook(book.id)}>
       <Image style={styles.image} source={{uri: getThumbnailUri(book)}} />
@@ -72,7 +77,7 @@ const BooksListView = (props: {
       <FlatList
         numColumns={3}
         data={props.books}
-        style={styles.flatList}
+        style={styles.container}
         renderItem={({item}) => (
           <BookCard
             key={item.id}
