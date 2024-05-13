@@ -16,7 +16,7 @@ const Loading = () => {
   return <Text>Loading</Text>;
 };
 
-const LeftDrawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator();
 
 const FilteredBooksListScreen = ({navigation, route}: ScreenProps) => {
   const format = route.params.format;
@@ -49,20 +49,20 @@ const BooksListScreen = ({navigation}: ScreenProps) => {
   };
 
   return (
-    <LeftDrawer.Navigator
+    <Drawer.Navigator
       drawerContent={() => (
         <FilterDrawerContent
           selectFormat={navigateToFormat}
           formats={formats}
         />
       )}>
-      <LeftDrawer.Screen
+      <Drawer.Screen
         name="FilteredBooksListScreen"
-        options={{title: 'Library'}}
+        options={{title: 'Library', headerTitleAlign: 'left'}}
         initialParams={{filter: null}}
         component={FilteredBooksListScreen}
       />
-    </LeftDrawer.Navigator>
+    </Drawer.Navigator>
   );
 };
 
